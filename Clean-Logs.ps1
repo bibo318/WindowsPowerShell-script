@@ -29,7 +29,7 @@ $clearedLogs = 0
 foreach ($log in $eventLogs) {
     try {
         wevtutil cl $log | Out-Null
-        Write-Host "    ✓ Cleared $log" -ForegroundColor Green
+        Write-Host "    [OK] Cleared $log" -ForegroundColor Green
         $clearedLogs++
     }
     catch {
@@ -86,14 +86,14 @@ $prefetchFiles = Get-ChildItem "C:\Windows\Prefetch\*.pf" -ErrorAction SilentlyC
 foreach ($pf in $prefetchFiles) {
     Remove-Item $pf.FullName -Force
 }
-Write-Host "    ✓ Prefetch cleared ($($prefetchFiles.Count) files)" -ForegroundColor Green
+Write-Host "    [OK] Prefetch cleared ($($prefetchFiles.Count) files)" -ForegroundColor Green
 
 # 5. Clear Recent Files
 Write-Host "`n[+] Clearing Recent Files..." -ForegroundColor Cyan
 $recentPath = "$env:USERPROFILE\Recent"
 if (Test-Path $recentPath) {
     Remove-Item "$recentPath\*" -Force -Recurse
-    Write-Host "    ✓ Recent files cleared" -ForegroundColor Green
+    Write-Host "    [OK] Recent files cleared" -ForegroundColor Green
 }
 
 # 6. Clear Temp folders
@@ -106,13 +106,13 @@ foreach ($tempPath in $tempPaths) {
         Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
     }
 }
-Write-Host "    ✓ All Temp folders cleared" -ForegroundColor Green
+Write-Host "    [OK] All Temp folders cleared" -ForegroundColor Green
 
 # 7. Empty Recycle Bin
 Write-Host "`n[+] Emptying Recycle Bin..." -ForegroundColor Cyan
 try {
     Clear-RecycleBin -Force -ErrorAction SilentlyContinue
-    Write-Host "    ✓ Recycle Bin emptied" -ForegroundColor Green
+    Write-Host "    [OK] Recycle Bin emptied" -ForegroundColor Green
 }
 catch {}
 
@@ -120,7 +120,7 @@ catch {}
 Write-Host "`n[+] Clearing Network caches..." -ForegroundColor Cyan
 ipconfig /flushdns | Out-Null
 netsh interface ip delete arpcache | Out-Null
-Write-Host "    ✓ DNS/ARP caches cleared" -ForegroundColor Green
+Write-Host "    [OK] DNS/ARP caches cleared" -ForegroundColor Green
 
 Write-Host ("-" * 50) -ForegroundColor Cyan
 Write-Host "[+] ALL TRACES CLEANED SUCCESSFULLY!" -ForegroundColor Green
